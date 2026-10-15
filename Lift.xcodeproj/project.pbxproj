@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        A00000000000000000000001 = {isa = PBXBuildFile; fileRef = A00000000000000000000002; };
 		0000000000000000000000C8 /* Domain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000064 /* Domain.swift */; };
 		0000000000000000000000C9 /* LiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000065 /* LiftApp.swift */; };
 		0000000000000000000000CA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000066 /* Models.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+        A00000000000000000000002 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryImport.swift; sourceTree = "<group>"; };
 		000000000000000000000006 /* Lift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		000000000000000000000064 /* Domain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Domain.swift; sourceTree = "<group>"; };
 		000000000000000000000065 /* LiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftApp.swift; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000064 /* Domain.swift */,
+                A00000000000000000000002,
 				000000000000000000000065 /* LiftApp.swift */,
 				000000000000000000000066 /* Models.swift */,
 				000000000000000000000067 /* ProgressViews.swift */,
@@ -130,6 +133,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0000000000000000000000C8 /* Domain.swift in Sources */,
+                A00000000000000000000001,
 				0000000000000000000000C9 /* LiftApp.swift in Sources */,
 				0000000000000000000000CA /* Models.swift in Sources */,
 				0000000000000000000000CB /* ProgressViews.swift in Sources */,

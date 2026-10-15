@@ -38,11 +38,34 @@ xcodebuild -project Lift.xcodeproj -scheme Lift -sdk iphonesimulator -configurat
 
 ## Still planned
 
-Reviewed historical-notes import (mixed/unknown units and malformed sets need resolution), full JSON backup/restore, optional private iCloud sync, custom exercise definitions, and per-exercise target/rest overrides. No historical dates or weights have been invented or silently imported. The HTML mockups in `docs` are design references, separate from the native app.
+Full JSON backup/restore, optional private iCloud sync, custom exercise definitions, and per-exercise target/rest overrides. Historical notes are now bundled and imported once, following your confirmed unit rule. No workout dates have been invented. The HTML mockups in `docs` are design references, separate from the native app.
 
-## Current verification
+## Base-app verification (before history import)
 
 - Debug iOS Simulator build succeeds for arm64 and x86_64 with signing disabled.
 - 21 parser/catalog checks pass.
 - On-disk SwiftData tests pass for catalog seeding, session snapshots, reopening storage, active workout recovery and preserved archive history.
 - Simulator UI execution has not been verified: this Mac has no installed iOS simulator runtime. Install one in Xcode or run on a connected iPhone to exercise the native screens.
+
+
+## Your imported history
+
+The app imports your Thea notes automatically on its next launch, including on a fresh iPhone install. Existing workouts are preserved. Stable import keys prevent repeat imports from duplicating or overwriting imported workouts and edits.
+
+- 122 exercise/week source rows; 306 numeric sets across 23 history groups.
+- 21 normal routine/week groups, one duplicate Week 5 group and one unknown-week group.
+- Every unmarked weight is **lb**, even when the preceding set explicitly says kg. The 14 explicitly marked kg sets retain kilograms.
+- Calendar dates remain nil; imported charts use week numbers and are separate from dated workouts.
+- 23 numeric sets are flagged and excluded from charts: assistance/machine ambiguity, duplicate/missing week, unclear h/freed markers, and `30x51`.
+- `12x PPP` and `90x` stay in Import notes, without invented reps. Empty trailing commas do not create sets.
+- Preacher and explicitly single-leg curls remain distinct variants.
+
+Open **Progress → routine → History** to see imported workouts. Each imported workout has **Original entries** and **Import notes**. Tap a flagged set to correct/confirm it; confirming enables that set for charts when a known week is available. Duplicate and unknown week groups remain outside charts until their week mapping is resolved; they are not silently reassigned. Imported equipment is marked unverified and stays separate from new workouts.
+
+`./scripts/test-history.sh` passed 18 checks covering counts, mixed units, missing dates, review flags, variant mapping, disk reopen, duplicate prevention and preservation of edits. The updated iPhone hardware build was not run because its permission request was declined. The earlier base-app simulator build passed; this update still needs an Xcode build and device check.
+
+## Installing on your iPhone
+
+Downloading the source folder on the phone does not install an iOS app. Open the project on your Mac, connect/unlock the iPhone, select your signing team and the iPhone as the run destination, enable Developer Mode when required, then press Run in Xcode. Use iOS 17 or later. Keep the same bundle ID when updating to retain the existing app container; do not delete the app to update it.
+
+After installation, Lift works offline and saves its data locally. A free Personal Team's provisioning expires after seven days, requiring rebuilding/reinstalling from Xcode. See Apple's account guidance: https://developer.apple.com/help/account/basics/about-your-developer-account . Data is not synced to iCloud; CSV export is not a full restorable backup. Native UI/device behavior has not yet been verified.

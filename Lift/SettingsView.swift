@@ -46,10 +46,10 @@ struct SettingsView: View {
             let safe = ["=", "+", "-", "@", "\t", "\r"].contains(where: value.hasPrefix) ? "'" + value : value
             return "\"" + safe.replacingOccurrences(of: "\"", with: "\"\"") + "\""
         }
-        var rows = ["workout_id,routine_id,split,routine,date,completed,equipment,exercise,weight,unit,kilograms,reps,warmup,original_input"]
+        var rows = ["workout_id,routine_id,split,routine,date,completed,equipment,exercise,weight,unit,kilograms,reps,warmup,original_input,week_label,review_reason"]
         for set in sets {
             guard let workout = workouts.first(where: { $0.id == set.workoutID }) else { continue }
-            rows.append([workout.id.uuidString, workout.routineID.uuidString, workout.splitName, workout.routineName, workout.startedAt.ISO8601Format(), String(workout.finishedAt != nil), workout.equipment, Catalog.find(set.exerciseID).name, String(set.load), set.unit, String(set.kilograms), String(set.reps), String(set.warmup), set.rawInput].map(quote).joined(separator: ","))
+            rows.append([workout.id.uuidString, workout.routineID.uuidString, workout.splitName, workout.routineName, workout.startedAt?.ISO8601Format() ?? "", String(workout.isComplete), workout.equipment, Catalog.find(set.exerciseID).name, String(set.load), set.unit, String(set.kilograms), String(set.reps), String(set.warmup), set.rawInput, workout.historicalLabel ?? "", set.reviewReason].map(quote).joined(separator: ","))
         }
         return rows.joined(separator: "\n")
     }

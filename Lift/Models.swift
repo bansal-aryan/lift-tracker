@@ -29,8 +29,16 @@ import SwiftData
     var splitName: String
     var routineName: String
     var exerciseIDs: [String]
-    var startedAt: Date
+    var startedAt: Date?
     var finishedAt: Date?
+    var importKey: String?
+    var historicalWeek: Int?
+    var historicalLabel: String?
+    var sourceNotes: String = ""
+    var importIssues: String = ""
+    var isComplete: Bool { finishedAt != nil || importKey != nil }
+    var dateLabel: String { historicalLabel ?? startedAt?.formatted(date: .abbreviated, time: .shortened) ?? "Date unknown" }
+
     var equipment: String
     var targetSets: Int
     var minReps: Int
@@ -51,6 +59,7 @@ import SwiftData
     var reps: Int
     var warmup: Bool
     var createdAt: Date
+    var reviewReason: String = ""
     var rawInput: String
     init(workoutID: UUID, exerciseID: String, parsed: ParsedSet, reps: Int, warmup: Bool, rawInput: String) {
         id = UUID(); self.workoutID = workoutID; self.exerciseID = exerciseID

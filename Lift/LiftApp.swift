@@ -13,6 +13,7 @@ extension Color {
             let container = try ModelContainer(for: schema, configurations: ModelConfiguration(schema: schema, cloudKitDatabase: .none))
             container.mainContext.autosaveEnabled = false
             try Persistence.seed(container.mainContext)
+            try HistoryImport.run(container.mainContext)
             return container
         }
     }

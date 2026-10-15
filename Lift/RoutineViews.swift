@@ -12,7 +12,7 @@ struct SplitsView: View {
     @State private var settings = false
     var body: some View {
         List {
-            if let active = workouts.first(where: { $0.finishedAt == nil }) {
+            if let active = workouts.first(where: { !$0.isComplete }) {
                 Section {
                     NavigationLink { WorkoutView(workout: active) } label: {
                         Label("Resume \(active.routineName)", systemImage: "play.circle.fill").foregroundStyle(Color.liftPurple)
@@ -150,7 +150,7 @@ struct RoutineView: View {
         List {
             Section {
                 Button { start() } label: {
-                    Label(workouts.contains { $0.finishedAt == nil } ? "Resume workout" : "Start workout", systemImage: "play.fill")
+                    Label(workouts.contains { !$0.isComplete } ? "Resume workout" : "Start workout", systemImage: "play.fill")
                         .font(.headline).frame(maxWidth: .infinity).padding(8)
                 }.listRowBackground(Color.liftWash)
                 NavigationLink { RoutineProgress(routineID: routine.id, name: routine.name, splitName: splitName) } label: { Label("Progress & history", systemImage: "chart.xyaxis.line") }
@@ -188,7 +188,7 @@ struct RoutineView: View {
         .saveError($error)
     }
     private func start() {
-        if let existing = workouts.first(where: { $0.finishedAt == nil }) { active = existing; return }
+        if let existing = workouts.first(where: { !$0.isComplete }) { active = existing; return }
         let session = Workout(routine: routine, splitName: splitName, equipment: equipment.trimmingCharacters(in: .whitespacesAndNewlines))
         context.insert(session)
         do { try context.save(); active = session } catch { context.rollback(); self.error = error.localizedDescription }
